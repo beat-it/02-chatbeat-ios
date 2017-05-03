@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "DetailViewController.h"
+#import <SendBirdSDK/SendBirdSDK.h>
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -16,12 +17,14 @@
 @implementation AppDelegate
 
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-    splitViewController.delegate = self;
+    //UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+    //UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+    //navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+    //splitViewController.delegate = self;
+    [SBDMain initWithApplicationId:@"823FDF29-5657-4A96-BE60-0AF4BFCB9886"];
     return YES;
 }
 

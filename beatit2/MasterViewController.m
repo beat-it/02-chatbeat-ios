@@ -8,6 +8,8 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import <SendBirdSDK/SendBirdSDK.h>
+#import "AppDelegate.h"
 
 @interface MasterViewController ()
 
@@ -15,6 +17,15 @@
 @end
 
 @implementation MasterViewController
+
+- (void) dealloc
+{
+    // If you don't remove yourself as an observer, the Notification Center
+    // will continue to try and send notification objects to the deallocated
+    // object.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog (@"Successfully de-registered the notification!");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,6 +35,11 @@
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateOpenChannels:)
+                                                 name:@"updateOpenChannels"
+                                               object:nil];
+    NSLog (@"Successfully registered the notification!");
 }
 
 
@@ -48,14 +64,49 @@
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+- (void) updateOpenChannels:(NSNotification *) notification
+{
+    // [notification name] should always be @"TestNotification"
+    // unless you use this method for observation of other notifications
+    // as well.
+    
+    if ([[notification name] isEqualToString:@"updateOpenChannels"]) {
+        NSLog (@"Successfully received the update channels notification!");
+        
+        SBDOpenChannelListQuery *query = [SBDOpenChannel createOpenChannelListQuery];
+        [query loadNextPageWithCompletionHandler:^(NSArray<SBDOpenChannel *> * _Nullable channels, SBDError * _Nullable error) {
+            if (error != nil) {
+                NSLog(@"Error: %@", error);
+                return;
+            }
+            // fill the list
+            if (!self.objects) {
+                self.objects = [[NSMutableArray alloc] init];
+            }
+            [self.objects removeAllObjects];
+            for (SBDOpenChannel *chanel in channels) {
+                [self.objects insertObject:chanel atIndex:0];
+                [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+
+            }
+        }];
+    }
+}
 
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = self.objects[indexPath.row];
+        SBDOpenChannel *object = self.objects[indexPath.row];
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
+        
+        controller.senderId = appDelegate.senderId;
+        controller.senderDisplayName = appDelegate.senderName;
+        controller.title = object.name;
         [controller setDetailItem:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
@@ -78,8 +129,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSDate *object = self.objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    SBDOpenChannel *object = self.objects[indexPath.row];
+    cell.textLabel.text = [object name];
     return cell;
 }
 
@@ -98,6 +149,7 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
+
 
 
 @end

@@ -14,6 +14,9 @@
 		2CCBB0E31EB7D7F000099C07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CCBB0E11EB7D7F000099C07 /* Main.storyboard */; };
 		2CCBB0E51EB7D7F000099C07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CCBB0E41EB7D7F000099C07 /* Assets.xcassets */; };
 		2CCBB0E81EB7D7F000099C07 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CCBB0E61EB7D7F000099C07 /* LaunchScreen.storyboard */; };
+		2CCBB0F11EB8513300099C07 /* ConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CCBB0F01EB8513300099C07 /* ConnectViewController.m */; };
+		2CCBB0F31EB915D600099C07 /* beatit.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CCBB0F21EB915D600099C07 /* beatit.png */; };
+		F15DA5AE11186DCA03AC3466 /* libPods-beatit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA449A8D3BB435B6B09A07B8 /* libPods-beatit2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,12 @@
 		2CCBB0E41EB7D7F000099C07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2CCBB0E71EB7D7F000099C07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2CCBB0E91EB7D7F000099C07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CCBB0EF1EB8513300099C07 /* ConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectViewController.h; sourceTree = "<group>"; };
+		2CCBB0F01EB8513300099C07 /* ConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectViewController.m; sourceTree = "<group>"; };
+		2CCBB0F21EB915D600099C07 /* beatit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beatit.png; sourceTree = "<group>"; };
+		2ED689517253AB62545E0925 /* Pods-beatit2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-beatit2.release.xcconfig"; path = "Pods/Target Support Files/Pods-beatit2/Pods-beatit2.release.xcconfig"; sourceTree = "<group>"; };
+		AC622B9721526F5AC46D4058 /* Pods-beatit2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-beatit2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-beatit2/Pods-beatit2.debug.xcconfig"; sourceTree = "<group>"; };
+		DA449A8D3BB435B6B09A07B8 /* libPods-beatit2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-beatit2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F15DA5AE11186DCA03AC3466 /* libPods-beatit2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,8 +55,11 @@
 		2CCBB0C91EB7D7F000099C07 = {
 			isa = PBXGroup;
 			children = (
+				2CCBB0F21EB915D600099C07 /* beatit.png */,
 				2CCBB0D41EB7D7F000099C07 /* beatit2 */,
 				2CCBB0D31EB7D7F000099C07 /* Products */,
+				60BFB933E6985BC288411659 /* Pods */,
+				7BA11CC1473FCD9B33770A0E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +80,8 @@
 				2CCBB0DC1EB7D7F000099C07 /* MasterViewController.m */,
 				2CCBB0DE1EB7D7F000099C07 /* DetailViewController.h */,
 				2CCBB0DF1EB7D7F000099C07 /* DetailViewController.m */,
+				2CCBB0EF1EB8513300099C07 /* ConnectViewController.h */,
+				2CCBB0F01EB8513300099C07 /* ConnectViewController.m */,
 				2CCBB0E11EB7D7F000099C07 /* Main.storyboard */,
 				2CCBB0E41EB7D7F000099C07 /* Assets.xcassets */,
 				2CCBB0E61EB7D7F000099C07 /* LaunchScreen.storyboard */,
@@ -84,6 +99,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		60BFB933E6985BC288411659 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AC622B9721526F5AC46D4058 /* Pods-beatit2.debug.xcconfig */,
+				2ED689517253AB62545E0925 /* Pods-beatit2.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7BA11CC1473FCD9B33770A0E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA449A8D3BB435B6B09A07B8 /* libPods-beatit2.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -91,9 +123,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2CCBB0EC1EB7D7F000099C07 /* Build configuration list for PBXNativeTarget "beatit2" */;
 			buildPhases = (
+				9FB95425131649E1ACB5FBBE /* [CP] Check Pods Manifest.lock */,
 				2CCBB0CE1EB7D7F000099C07 /* Sources */,
 				2CCBB0CF1EB7D7F000099C07 /* Frameworks */,
 				2CCBB0D01EB7D7F000099C07 /* Resources */,
+				A5F3D362EFC39A21D6802195 /* [CP] Embed Pods Frameworks */,
+				002F067B1143C1D4662780B4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -145,11 +180,60 @@
 			files = (
 				2CCBB0E81EB7D7F000099C07 /* LaunchScreen.storyboard in Resources */,
 				2CCBB0E51EB7D7F000099C07 /* Assets.xcassets in Resources */,
+				2CCBB0F31EB915D600099C07 /* beatit.png in Resources */,
 				2CCBB0E31EB7D7F000099C07 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		002F067B1143C1D4662780B4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-beatit2/Pods-beatit2-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9FB95425131649E1ACB5FBBE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A5F3D362EFC39A21D6802195 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-beatit2/Pods-beatit2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2CCBB0CE1EB7D7F000099C07 /* Sources */ = {
@@ -157,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CCBB0DA1EB7D7F000099C07 /* AppDelegate.m in Sources */,
+				2CCBB0F11EB8513300099C07 /* ConnectViewController.m in Sources */,
 				2CCBB0DD1EB7D7F000099C07 /* MasterViewController.m in Sources */,
 				2CCBB0D71EB7D7F000099C07 /* main.m in Sources */,
 				2CCBB0E01EB7D7F000099C07 /* DetailViewController.m in Sources */,
@@ -279,8 +364,9 @@
 		};
 		2CCBB0ED1EB7D7F000099C07 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC622B9721526F5AC46D4058 /* Pods-beatit2.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				DEVELOPMENT_TEAM = VMPLC322D8;
 				INFOPLIST_FILE = beatit2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -291,8 +377,9 @@
 		};
 		2CCBB0EE1EB7D7F000099C07 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2ED689517253AB62545E0925 /* Pods-beatit2.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				DEVELOPMENT_TEAM = VMPLC322D8;
 				INFOPLIST_FILE = beatit2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -320,6 +407,7 @@
 				2CCBB0EE1EB7D7F000099C07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

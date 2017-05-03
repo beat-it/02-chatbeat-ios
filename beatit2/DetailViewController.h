@@ -7,11 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <JSQMessagesViewController/JSQMessages.h>
+#import <SendBirdSDK/SendBirdSDK.h>
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : JSQMessagesViewController<SBDChannelDelegate>
 
-@property (strong, nonatomic) NSDate *detailItem;
+@property (strong, nonatomic) SBDOpenChannel *detailItem;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+
+@property (strong, nonatomic) NSMutableArray *messages;
+
+@property (strong, nonatomic) JSQMessagesBubbleImage *outgoingBubbleImageData;
+
+@property (strong, nonatomic) JSQMessagesBubbleImage *incomingBubbleImageData;
 
 @end
 
