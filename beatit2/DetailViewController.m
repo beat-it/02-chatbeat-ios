@@ -23,6 +23,7 @@
     
     self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
     self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleGreenColor]];
+    
 }
 
 
@@ -52,85 +53,78 @@
         // Update the view.
         [self configureView];
         
-//        [SBDOpenChannel getChannelWithUrl:_detailItem.channelUrl completionHandler:^(SBDOpenChannel * _Nullable channel, SBDError * _Nullable error) {
-//            if (error != nil) {
-//                NSLog(@"Error: %@", error);
-//                return;
-//            }
-        
-            [_detailItem enterChannelWithCompletionHandler:^(SBDError * _Nullable error) {
+        [_detailItem enterChannelWithCompletionHandler:^(SBDError * _Nullable error) {
+            if (error != nil) {
+                NSLog(@"Error: %@", error);
+                return;
+            }
+            
+            [SBDMain addChannelDelegate:self identifier:_detailItem.channelUrl];
+            
+            SBDPreviousMessageListQuery *previousMessageQuery = [_detailItem createPreviousMessageListQuery];
+            [previousMessageQuery loadPreviousMessagesWithLimit:30 reverse:YES completionHandler:^(NSArray<SBDBaseMessage *> * _Nullable messages, SBDError * _Nullable error) {
                 if (error != nil) {
                     NSLog(@"Error: %@", error);
                     return;
                 }
-                
-                [SBDMain addChannelDelegate:self identifier:_detailItem.channelUrl];
-                
-                SBDPreviousMessageListQuery *previousMessageQuery = [_detailItem createPreviousMessageListQuery];
-                [previousMessageQuery loadPreviousMessagesWithLimit:30 reverse:YES completionHandler:^(NSArray<SBDBaseMessage *> * _Nullable messages, SBDError * _Nullable error) {
-                    if (error != nil) {
-                        NSLog(@"Error: %@", error);
-                        return;
+                NSLog(@"We have messages huraaaa");
+                for (SBDBaseMessage *message in messages) {
+                    if ([message isKindOfClass:[SBDUserMessage class]]){
+                        SBDUserMessage *myMessage = (SBDUserMessage *)message;
+                        JSQMessage *messageX = [[JSQMessage alloc]
+                                                initWithSenderId:myMessage.sender.userId
+                                                senderDisplayName:myMessage.sender.nickname
+                                                date:[NSDate dateWithTimeIntervalSince1970: (myMessage.createdAt/1000)]
+                                                text:myMessage.message];
+                        [self.messages insertObject:messageX atIndex:0];
                     }
-                    NSLog(@"We have messages huraaaa");
-                    for (SBDBaseMessage *message in messages) {
-                        if ([message isKindOfClass:[SBDUserMessage class]]){
-                            SBDUserMessage *myMessage = (SBDUserMessage *)message;
-                            JSQMessage *messageX = [[JSQMessage alloc]
-                                                    initWithSenderId:myMessage.sender.userId
-                                                    senderDisplayName:myMessage.sender.nickname
-                                                    date:[NSDate dateWithTimeIntervalSince1970: (myMessage.createdAt/1000)]
-                                                    text:myMessage.message];
-                            [self.messages insertObject:messageX atIndex:0];
-                        }
-                        if ([message isKindOfClass:[SBDFileMessage class]]){
-                            
-//                            [_detailItem deleteMessage:message completionHandler:^(SBDError * _Nullable error) {
-//                                if (error != nil) {
-//                                    NSLog(@"Error");
-//                                    return;
-//                                }
-//                            }];
-                            
-                            
-                            
-                            
-                            SBDFileMessage *myMessage = (SBDFileMessage *)message;
-                            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:myMessage.url]]];
-                            
-                            JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:image];
-                            
-                            JSQMessage *messageX = [[JSQMessage alloc]
-                                                    initWithSenderId:myMessage.sender.userId
-                                                    senderDisplayName:myMessage.sender.nickname
-                                                    date:[NSDate dateWithTimeIntervalSince1970: (myMessage.createdAt/1000)]
-                                                    media:photoItem];
-                            [self.messages insertObject:messageX atIndex:0];
-                        }
-
+                    if ([message isKindOfClass:[SBDFileMessage class]]){
                         
+//                        [_detailItem deleteMessage:message completionHandler:^(SBDError * _Nullable error) {
+//                            if (error != nil) {
+//                                NSLog(@"Error");
+//                                return;
+//                            }
+//                        }];
                         
+                        SBDFileMessage *myMessage = (SBDFileMessage *)message;
+                        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:myMessage.url]]];
+                        
+                        JSQPhotoMediaItem *photoItem = [[JSQPhotoMediaItem alloc] initWithImage:image];
+                        
+                        JSQMessage *messageX = [[JSQMessage alloc]
+                                                initWithSenderId:myMessage.sender.userId
+                                                senderDisplayName:myMessage.sender.nickname
+                                                date:[NSDate dateWithTimeIntervalSince1970: (myMessage.createdAt/1000)]
+                                                media:photoItem];
+                        [self.messages insertObject:messageX atIndex:0];
                     }
-                    [self performSelectorOnMainThread:@selector(finishReceivingMessage) withObject:nil waitUntilDone:YES];
-                }];
-                
-                
+                    
+                    
+                    
+                }
+                [self performSelectorOnMainThread:@selector(finishReceivingMessage) withObject:nil waitUntilDone:YES];
             }];
-//        }];
+            
+            
+        }];
+        //        }];
     }
 }
 
 #pragma mark - JSQMessageVievController
 
 - (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
+    NSString *myText = text;
+
     
     JSQMessage *message = [[JSQMessage alloc] initWithSenderId:senderId
-        senderDisplayName:senderDisplayName
-        date:date
-        text:text];
+                                             senderDisplayName:senderDisplayName
+                                                          date:date
+                                                          text:myText];
     [self.messages addObject:message];
     
-    [[self detailItem] sendUserMessage:text data:nil completionHandler:^(SBDUserMessage * _Nullable userMessage, SBDError * _Nullable error) {
+    [[self detailItem] sendUserMessage:myText data:nil completionHandler:^(SBDUserMessage * _Nullable userMessage, SBDError * _Nullable error) {
         if (error != nil) {
             NSLog(@"Error: %@", error);
             return;
@@ -361,6 +355,7 @@
     // Present action sheet.
     [self presentViewController:actionSheet animated:YES completion:nil];
 }
+
 
 
 @end
